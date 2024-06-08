@@ -313,7 +313,7 @@ def retrieve_recent_image(request, document_type):
 
 
 def login(request):
-    return render(request, 'login.html')
+    return render(request, 'index.html')
 
 def login_view(request):
     if request.method == 'POST':
@@ -325,7 +325,7 @@ def login_view(request):
         return redirect('home')  # Redirect to the home page
 
     else:
-        return render(request, 'login.html')
+        return render(request, 'index.html')
 
 def edd(request):
     return render(request, 'EDD.html')
