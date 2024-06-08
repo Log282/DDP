@@ -1,0 +1,8 @@
+# Tell GitHub to recognize HTML files
+*.html linguist-language=HTML
+
+# Tell GitHub to recognize CSS files
+*.css linguist-language=CSS
+
+# Tell GitHub to recognize JavaScript files
+*.js linguist-language=JavaScript
