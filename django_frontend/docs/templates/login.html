@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GAIA-Application-Login</title>
+    <link href="{% static 'docs/css/style.css' %}" rel="stylesheet" type="text/css"/>
+    <script src="{% static 'docs/js/javascript.js' %}"></script>
+</head>
+<body>
+    <div class="login-form">
+        <img src="{% static 'docs/images/Picture1.png' %}" height="120" width="120">
+        <br/><br/><br/><br/>
+        {% if error_message %}
+        <p>{{ error_message }}</p>
+        {% endif %}
+        <form class="login-inputs" method="post" action="{% url 'login_view' %}">
+            {% csrf_token %}
+            <input type="text" name="username" placeholder="USERNAME">
+            <br>
+            <input type="password" name="password" placeholder="PASSWORD">
+            <br>
+            <button type="submit" class="button-link">Login</button>
+        </form>
+    </div>
+</body>
+</html>
+
+<!-- {% load static %}
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GAIA-Application-Login</title>
+    <link href="{% static 'docs/css/style.css' %}" rel="stylesheet" type="text/css"/>
+    <script src="{% static 'docs/js/javascript.js' %}"></script>
+</head>
+<body>
+    <div class="login-form">
+            <img src="{% static 'docs/images/Picture1.png' %}" height="120 px" width="120 px">
+            <br/><br/><br/><br/>
+            <form class="login-inputs">
+                <input type="text" placeholder="USERNAME">
+                <br>
+                <input type="password" placeholder="PASSWORD">
+                <br>
+                <a href="{% url 'home' %}" class="button-link">Login</a>
+            </form>
+    </div>
+</body>
+</html>   -->

@@ -1,0 +1,202 @@
+{% load static %}
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8"/>
+    <title>GAIA-Application-Homepage</title>
+    <link href="{% static 'docs/css/styles.css' %}" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+    
+    <header>
+    <div class="heading-container">
+        <a href="{% url 'home' %}"><img src="{% static 'docs/images/logo gaia.png' %}" class="main" height="60px" width="60px"></a>
+        <h2>Due Diligence Platform</h2>
+        <a href="{% url 'login' %}" class="logout-button">Logout</a>
+    </div>
+    </header>  
+    <br/>      
+    <nav>
+        <div class="flex-container">
+            <div class="dropdown" id="kycDropdown">
+                <a href="#" class="highlight hover-info" data-info="KYC | 3.11 CUSTOMER TYPES" onclick="toggleDropdown()" id="kyc-button">US Consumer</a>
+                <div class="dropdown-content">
+                    <a href="{% url 'us_consumer' %}" class="hover-info" data-info="1.1 US Consumer">US Consumer</a>
+                    <a href="{% url 'non_us_consumer' %}" class="hover-info" data-info="1.2 Non US Consumer">Non US Consumer</a>
+                    <a href="{% url 'us_entity' %}" class="hover-info" data-info="1.3 US Entity">US Entity</a>
+                    <a href="{% url 'non_us_entity' %}" class="hover-info" data-info="1.4 Non US Consumer">Non US Entity</a>
+                </div>
+            </div>
+            <a href="{% url 'spdd' %}" class="button hover-info" data-info="KYC | 3.7 Specialized Due Diligence (SpDD)">spDD</a>
+            <a href="{% url 'edd' %}" class="button hover-info" data-info="HIGH RISK ONBOARDING & REVIEW">EDD</a>
+            <a class="button" id="ofacmain">OFAC</a>
+        </div>
+    </nav>
+    <hr/>
+    <div class="p1">
+        <div class="hover-info" data-info="KYC | ACCOUNT TYPE">
+        <select name="Choose customer type" class="pa1" id="customerType" placeholder="Choose customer type" onchange="redirectOnChange()">
+            <option value="Choose customer type">Choose customer type</option>  
+            <option value="New-Application">New Application</option> 
+            <option value="Existing-customer">Existing customer</option> 
+            <option value="Pending-customer">Pending customer</option> 
+        </select> 
+    </div>  
+        <select id="searchType">
+            <option value="account">Search by Account Number</option>
+            <option value="party">Search by Party ID</option>
+        </select>              
+        <input id="searchInput" class="pb1" type="text" placeholder="Search">
+        <button id="gaiaLinkButton">Search</button>
+    </div>            
+    <br/>
+    </div>
+    <form >
+        <div class="purple">Personal Information</div>
+        <div class="gridA1">
+            <div class="grid-itemA1 col1">
+                <lable class="hover-info" data-info="Application ID">Application ID</lable>
+                    <input type="text" name="app-id" />
+                <lable class="hover-info" data-info="3.2.3 CIP Information">Middle Name</lable>
+                    <input type="text" name="mname" />
+                <lable class="hover-info" data-info="3.2.3 CIP Information">Gender</lable>
+                    <input type="text" name="gender"/>
+                <lable class="hover-info" data-info="3.2.3 CIP Information">Street Address</lable>
+                    <input type="text" name="add"/>
+                <lable class="hover-info" data-info="3.2.3 CIP Information">Postal Code</lable>
+                    <input type="text" name="postal-code"/>
+            </div>
+            <div class="grid-itemA1 col2">
+                <lable class="hover-info" data-info="3.2.3 CIP Information">Account Type</lable>
+                    <input type="text" name="acc-type"/>
+                <lable class="hover-info" data-info="3.2.3 CIP Information">Last Name</lable>
+                    <input type="text" name="lname"/>
+                <lable  class="hover-info" data-info="3.2.3 CIP Information">Email</lable>
+                    <input type="email" name="email"/>
+                <lable class="hover-info" data-info="3.2.3 CIP Information">City</lable>
+                    <input type="text" name="city"/>
+                <lable class="hover-info" data-info="3.2.3 CIP Information">Country</lable>
+                    <input type="text" name="country"/>
+                <lable class="hover-info" data-info="3.2.3 CIP Information">ID Number</lable>
+                    <input type="text" name="idno"/>
+            </div>           
+            <div class="grid-itemA1 col3">
+                <lable class="hover-info" data-info="3.2.3 CIP Information">First Name</lable>
+                    <input type="text" name="fname"/>
+                <lable class="hover-info" data-info="3.2.3 CIP Information">Birth Date</lable>
+                    <input type="date" name="date"/>
+                <lable class="hover-info" data-info="3.2.3 CIP Information">Phone</lable>
+                    <input type="number" name="phn"/>
+                <lable class="hover-info" data-info="3.2.3 CIP Information">State</lable>
+                    <input type="text" name="state"/>
+                <lable class="hover-info" data-info="3.2.3 CIP Information">ID Type</lable>
+                    <input type="text" name="id-type"/>
+            </div>        
+        </div>
+        <br/>
+        <div class="purple hover-info" data-info="3.2.4 CIP Verification">KYC- Documentary Verification</div>
+        <br>
+        <div class="rowB1">
+            <div class="sub1 hover-info" data-info="3.2.4.1 CIP Verification">Primary Documentation</div>
+            <br/>
+            <div class="mini">
+                <label>Document Type</label>
+                <select name="Document Type" id="dtype"> 
+                    <option value="Driver's Licence">Driver's Licence</option> 
+                    <option value="Passport">Passport</option> 
+                    <option value="Government Photo ID">Government Photo ID</option> 
+                    <option value="U.S Armed Forces ID">U.S Armed Forces ID</option> 
+                    <option value="U.S Alien Registration Card">U.S Alien Registration Card</option>
+                    <option value="Permanent Resident Card">Permanent Resident Card</option>
+                </select>
+                <label class="file-input-label">
+                    <label class="button-container hover-info" data-info="Upload a file">
+                        <input type="file" class="input" id="fileInput1" name="fileInput1">
+                        <img src="{% static 'docs/images/upload-icon.png' %}" alt="Image" class="image">
+                        <span class="button">Upload</span>    
+                    </label>
+                </label>
+                
+                <img src="{% static 'docs/images/lens.png' %}" height="40px" width="40px" class="hover-info-image" data-info="View Document" onclick="openModal('fileInput1')" onmouseover="showTooltip(this)" onmouseout="hideTooltip()">
+            
+                <!-- The Modal -->
+                <div id="myModal" class="modal">
+                    <!-- Modal content -->
+                    <div class="modal-content">
+                        <span class="close" onclick="closeModal()">&times;</span>
+                        <a id="modalLink" alt="Document Link" style="display: none;">Download Document</a>
+                    </div>
+                </div>        
+            </div>            
+            <br/>
+            <br/>
+            <div class="sub1 hover-info" data-info="3.2.4.2 CIP Verification">Secondary Documentation</div>
+            <div class="mini">
+                <label>Document Type</label>
+                <select name="Document Type" id="dtype">
+                    <option value="Passport">Passport</option> 
+                    <option value="Driver's Licence">Driver's Licence</option>  
+                    <option value="Government Photo ID">Government Photo ID</option> 
+                    <option value="U.S Armed Forces ID">U.S Armed Forces ID</option> 
+                    <option value="U.S Alien Registration Card">U.S Alien Registration Card</option>
+                    <option value="Permanent Resident Card">Permanent Resident Card</option>
+                </select>
+                <label class="file-input-label">
+                    <label class="button-container hover-info" data-info="Upload a file">
+                        <input type="file" class="input" id="fileInput2" name="fileInput2">
+                        <img src="{% static 'docs/images/upload-icon.png' %}" alt="Image" class="image">
+                        <span class="button">Upload</span>    
+                    </label>
+                </label>
+                
+                <img src="{% static 'docs/images/lens.png' %}" height="40px" width="40px" class="hover-info-image" data-info="View Document" onclick="openModal('fileInput2')" onmouseover="showTooltip(this)" onmouseout="hideTooltip()">
+            
+                <!-- The Modal -->
+                <div id="myModal" class="modal">
+                    <!-- Modal content -->
+                    <div class="modal-content">
+                        <span class="close" onclick="closeModal()">&times;</span>
+                        <a id="modalLink" alt="Document Link" style="display: none;">Download Document</a>
+                    </div>
+                </div>        
+            </div>
+            <br/><br><br>
+            <div class="purple hover-info" data-info="3.2.4.2 Non-Documentary Verification">KYC- Non Documentary Verification</div><br>
+            <div class="mini">
+                <label>Document Type</label>
+                <select name="Document Type" id="dtype"> 
+                    <option value="Credit report">Credit report</option> 
+                    <option value="LexisNexis IDV">LexisNexis IDV</option>
+                    <option value="Tax return">Tax return</option>
+                    <option value="Pay stub">Pay stub</option>
+                    <option value="Utility bill">Utility bill</option>
+                    <option value="Mortgage statement">Mortgage statement</option>
+                    <option value="Account statement from previous bank">Account statement from previous bank</option>
+                </select>
+                <label class="file-input-label">
+                    <label class="button-container hover-info" data-info="Upload a file">
+                        <input type="file" class="input" id="fileInput3" name="fileInput3">
+                        <img src="{% static 'docs/images/upload-icon.png' %}" alt="Image" class="image">
+                        <span class="button">Upload</span>    
+                    </label>
+                </label>
+                
+                <img src="{% static 'docs/images/lens.png' %}" height="40px" width="40px" class="hover-info-image" data-info="View Document" onclick="openModal('fileInput3')" onmouseover="showTooltip(this)" onmouseout="hideTooltip()">
+            
+                <!-- The Modal -->
+                <div id="myModal" class="modal">
+                    <!-- Modal content -->
+                    <div class="modal-content">
+                        <span class="close" onclick="closeModal()">&times;</span>
+                        <a id="modalLink" alt="Document Link" style="display: none;">Download Document</a>
+                    </div>
+                </div>        
+            </div>
+        <br>
+    </form>
+    <script src="{% static 'docs/js/javascript.js' %}"></script>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+</body>
+</html>

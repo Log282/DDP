@@ -1,0 +1,224 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>GAIA-Application-Homepage</title>
+    <link href="{% static 'docs/css/styles.css' %}" rel="stylesheet" type="text/css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="{% static 'docs/js/javascript.js' %}"></script>
+    <style>
+        /* Spinner CSS */
+        .spinner {
+          border: 16px solid #f3f3f3; /* Light grey */
+          border-top: 16px solid #3498db; /* Blue */
+          border-radius: 50%;
+          width: 120px;
+          height: 120px;
+          animation: spin 2s linear infinite;
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+        }
+
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+
+        input[type="submit"]{
+            background-color: rgb(100, 200, 125);
+            color: white; /* White text */
+            border: none; /* Remove borders */
+            border-radius: 4px; /* Rounded corners */
+            cursor: pointer; /* Pointer/hand icon */
+            font-size: 16px; /* Increase font size */
+            transition: background-color 0.3s ease; /* Smooth transition for hover */
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049; /* Darker green on hover */
+        }
+
+        .files{
+            margin-bottom: 8px;
+        }
+        .image-container {
+            cursor: pointer;
+        }
+    
+   
+
+    </style>
+</head>
+<body>
+    <header>
+        <div class="heading-container">
+            <a href="{% url 'home' %}"><img src="{% static 'docs/images/logo gaia.png' %}" class="main" height="60px" width="60px"></a>
+            <h2>Due Diligence Platform</h2>
+            <a href="{% url 'login' %}" class="logout-button">Logout</a>
+        </div>
+    </header>
+    <br>
+    <div class="flex2">
+        <a href="{% url 'new_application' %}"><input class="flex-item2" id="ind" type="button" value="Individual Application"/></a>
+        <a href="{% url 'entity' %}"><input class="flex-item2" id="ent" type="button" value="Entity Application"/></a>
+    </div>
+    <br/>
+    <div class="upload">
+        <label>ID Upload:</label>
+        <img src="{% static 'docs/images/id-img.png' %}" height="70px" width="100px">
+
+        <form method="POST" enctype="multipart/form-data" id="uploadForm" class="files">
+            {% csrf_token %}
+            <label for="fileInput">Select a File</label>
+            <input type="file" class="input" name="fileInput" id="fileInput">
+            <!-- <img src="{% static 'docs/images/lens.png' %}" height="25px" width="25px" class="hover-info-image" data-info="View Document" onclick="window.open('{% url 'latest_uploaded_image' %}', '_blank')" onmouseover="showTooltip(this)" onmouseout="hideTooltip()"> -->
+            <label id="cameraLabel" for="camera-input">Camera upload</label>
+            <input type="file" class="input" name="camera-input" accept="image/*" capture="camera" id="camera-input">
+            <!-- <img src="{% static 'docs/images/lens.png' %}" height="25px" width="25px" class="hover-info-image" data-info="View Document" onclick="openModal('camera-input')" onmouseover="showTooltip(this)" onmouseout="hideTooltip()"> -->
+            <input type="submit" value="Extract" style="margin-right: 20px;">
+            <span class="image-container">
+            <img src="{% static 'docs/images/lens.png' %}" height="30px" width="30px" class="hover-info-image" data-info="View Document" onclick="window.open('{% url 'latest_uploaded_image' %}', '_blank')" onmouseover="showTooltip(this)" onmouseout="hideTooltip()">
+            </span>
+        </form>
+
+        <div id="loading-spinner" class="spinner" style="display:none;"></div>
+        
+    </div>
+    <br/>
+
+    <div class="purple">Extracted Personal Information</div>
+    <br/>
+    <form method="POST" id="saveForm" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="grid">
+            <div class="grid-item rowB1">
+                <label>First Name</label>
+                <input type="text" name="FirstName" value="{{ classified_fields.FirstName|default:'' }}" />
+                <label>Gender</label>
+                <input type="text" name="Gender" value="{{ classified_fields.Gender|default:'' }}" />
+                <label>Street Address</label>
+                <input type="text" name="StreetAddress" value="{{ classified_fields.StreetAddress|default:'' }}" />
+                <label>Postal Code</label>
+                <input type="text" name="PostalCode" value="{{ classified_fields.PostalCode|default:'' }}" />
+                <label>ID Number</label>
+                <input type="text" name="IDNumber" value="{{ classified_fields.IDNumber|default:'' }}" />
+                <label>Date of Issue</label>
+                <input type="text" name="DateOfIssue" value="{{ classified_fields.DateOfIssue|default:'' }}" />
+            </div>
+            <br/>
+            <div class="grid-item rowB2">
+                <label>Middle Name</label>
+                <input type="text" name="MiddleName" value="{{ classified_fields.MiddleName|default:'' }}" />            
+                <label>Email</label>
+                <input type="text" name="Email" value="{{ classified_fields.Email|default:'' }}" />
+                <label>City</label>
+                <input type="text" name="City" value="{{ classified_fields.City|default:'' }}" />
+                <label>Country</label>
+                <input type="text" name="Country" value="{{ classified_fields.Country|default:'' }}" />
+                <label>ID Type</label>
+                <input type="text" name="IDType" value="{{ classified_fields.IDType|default:'' }}" />   
+                <label>Date of Expiry</label>
+                <input type="text" name="DateOfExpiry" value="{{ classified_fields.DateOfExpiry|default:'' }}" />   
+            </div>
+            <br/>
+            <div class="grid-item rowB3">
+                <label>Last Name</label>
+                <input type="text" name="LastName" value="{{ classified_fields.LastName|default:'' }}" />
+                <label>Birth Date</label>
+                <input type="text" name="BirthDate" value="{{ classified_fields.BirthDate|default:'' }}" />        
+                <label>Phone</label>
+                <input type="text" name="Phone" value="{{ classified_fields.Phone|default:'' }}" /> 
+                <label>State</label>
+                <input type="text" name="State" value="{{ classified_fields.State|default:'' }}" /> 
+                
+            
+            </div>
+
+            <br/>             
+        </div>
+
+        <br/>
+        <div class="upload">
+            <label for="fileInput">Signature Upload</label>
+            <input type="file" class="input" name="signature">
+            <label for="D-Signature">Digital Signature</label>
+            <input type="file" class="input" name="digital_signature">
+            <input type="submit" value="Submit" style="background-color: blue; color: white;">
+        </div>
+    </form>
+
+    <br/>
+    <script>
+        document.getElementById('uploadForm').addEventListener('submit', function() {
+            document.getElementById('loading-spinner').style.display = 'block';
+        });
+
+        $(document).ready(function() {
+            $('#saveForm').submit(function(event) {
+                event.preventDefault();
+                $.ajax({
+                    url: '{% url "save_application" %}',
+                    type: 'POST',
+                    data: $(this).serialize(),
+                    success: function(response) {
+                    alert(' Applicant ID: ' + response.unique_id + '. ' + response.message);
+                    },
+                    error: function(response) {
+                        alert('Failed to save data.');
+                    }
+                });
+            });
+        });
+    </script>
+     <script>
+        document.getElementById('fileInput').addEventListener('change', function(event) {
+            const fileName = event.target.files[0].name;
+            alert(`${fileName} uploaded successfully. Press "Extract" button`);
+        });
+    </script>
+<!--  <script src="{% static 'docs/js/javascript.js' %}"></script>                              
+     <script>
+         function redirectOnChange() {
+             var customerType = document.getElementById("customerType");
+             var selectedValue = customerType.options[customerType.selectedIndex].value;
+             if (selectedValue !== "#") {
+                 window.location.href = selectedValue;
+             }
+         }
+ 
+         function importData() {
+             const appId = document.getElementById('app-id').value;
+             fetch(`/import_data/?app_id=${appId}`)
+                 .then(response => response.json())
+                 .then(data => {
+                     if (data.error) {
+                         alert(data.error);
+                     } else {
+                         document.getElementById('fname').value = data.FirstName;
+                         document.getElementById('mname').value = data.MiddleName;
+                         document.getElementById('lname').value = data.LastName;
+                         document.getElementById('gender').value = data.Gender;
+                         document.getElementById('add').value = data.StreetAddress;
+                         document.getElementById('postal-code').value = data.PostalCode;
+                         document.getElementById('idno').value = data.IDNumber;
+                         document.getElementById('email').value = data.Email;
+                         document.getElementById('city').value = data.City;
+                         document.getElementById('country').value = data.Country;
+                         document.getElementById('id-type').value = data.IDType;
+                         document.getElementById('date').value = data.BirthDate;
+                         document.getElementById('phn').value = data.Phone;
+                         document.getElementById('state').value = data.State;
+                         document.getElementById('acc-type').value = data.AccountType;
+                     }
+                 })
+                 .catch(error => {
+                     console.error('Error:', error);  
+                 });
+         }
+     </script>                                                                     ranjith-new   -->
+    
+</body>
+</html>

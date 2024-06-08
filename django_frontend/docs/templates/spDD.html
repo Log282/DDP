@@ -1,0 +1,296 @@
+{% load static %}
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8"/>
+    <title>GAIA-Application-Homepage</title>
+    <link href="{% static 'docs/css/styles.css' %}" rel="stylesheet" type="text/css"/>
+    <script src="{% static 'docs/js/javascript.js' %}"></script>
+</head>
+<body>
+    <header>
+    <div class="heading-container">
+        <a href="{% url 'home' %}"><img src="{% static 'docs/images/logo gaia.png' %}" class="main" height="60px" width="60px"></a>
+        <h2>Due Diligence Platform</h2>
+        <a href="{% url 'login' %}" class="logout-button">Logout</a>
+    </div>
+    </header>  
+    <br/>      
+    <nav>
+        <div class="flex-container">
+            <div class="dropdown" id="kycDropdown">
+                <a href="#" class="highlight" onclick="toggleDropdown()">KYC</a>
+                <div class="dropdown-content">
+                    <a href="{% url 'home' %}">US Consumer</a>
+                    <a href="{% url 'non_us_consumer' %}">Non US Consumer</a>
+                    <a href="{% url 'us_entity' %}">US Entity</a>
+                    <a href="{% url 'non_us_entity' %}">Non US Entity</a>
+                </div>
+            </div>
+            <a href="{% url 'spdd' %}" class="button hover-info" data-info="KYC | 3.7 Specialized Due Diligence (SpDD)" id="spDDmain">spDD</a>
+            <a href="{% url 'edd' %}" class="button hover-info" data-info="HIGH RISK ONBOARDING & REVIEW">EDD</a>
+            <a class="button" id="ofacmain">OFAC</a>
+        </div>
+    </nav>
+    <hr/>
+    </div>  
+    <div class="p1">
+        <div class="hover-info" data-info="KYC | ACCOUNT TYPE">
+        <select name="Choose customer type" class="pa1" id="customerType" placeholder="Choose customer type" onchange="redirectOnChange()">
+            <option value="Choose customer type">Choose customer type</option>  
+            <option value="New-Application">New Application</option> 
+            <option value="Existing-customer">Existing customer</option> 
+            <option value="Pending-customer">Pending customer</option> 
+        </select> 
+    </div>  
+        <select id="searchType">
+            <option value="account">Search by Account Number</option>
+            <option value="party">Search by Party ID</option>
+        </select>              
+        <input id="searchInput" class="pb1" type="text" placeholder="Search">
+        <button id="gaiaLinkButton">Search</button>
+    </div>
+    <br/>
+    <div class="purple ">
+        Documents for Arms and Ammunition Manufacturers, Retailers or Wholesaler
+    </div>
+    <br/>
+    <div class="mini">
+        <label>Document Type</label>
+        <select name="Document Type" id="dtype"> 
+            <option value="Federal-firearms-license">Federal firearms Licence</option> 
+            <option value="nbc">Nature of business of its customers</option> 
+            <option value="Det-marketed">Determine how it is marketed</option> 
+        </select>
+        <label class="file-input-label">
+            <label class="button-container hover-info" data-info="Upload a file">
+                <input type="file" class="input" id="fileInput1" name="fileInput1">
+                <img src="{% static 'docs/images/upload-icon.png' %}" alt="Image" class="image">
+                <span class="button">Upload</span>    
+            </label>
+        </label>
+        
+        <img src="{% static 'docs/images/lens.png' %}" height="40px" width="40px" class="hover-info-image" data-info="View Document" onclick="openModal('fileInput1')" onmouseover="showTooltip(this)" onmouseout="hideTooltip()">
+    
+        <!-- The Modal -->
+        <div id="myModal" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <a id="modalLink" alt="Document Link" style="display: none;">Download Document</a>
+            </div>
+        </div> 
+    </div>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <div class="purple">
+        Documents Required for Broker Dealers
+    </div>
+    <br/>
+    <div class="mini">
+        <label>Document Type</label>
+        <select name="Document Type" id="dtype"> 
+            <option value="reg-FINRA">Registration status with FINRA</option> 
+            <option value="PnS">Products and Services</option> 
+            <option value="client-base">Client base</option> 
+            <option value="customer-procedures">Customer procedures clients and whether clients can open accounts online</option> 
+        </select>
+        <label class="file-input-label">
+            <label class="button-container hover-info" data-info="Upload a file">
+                <input type="file" class="input" id="fileInput2" name="fileInput2">
+                <img src="{% static 'docs/images/upload-icon.png' %}" alt="Image" class="image">
+                <span class="button">Upload</span>    
+            </label>
+        </label>
+        
+        <img src="{% static 'docs/images/lens.png' %}" height="40px" width="40px" class="hover-info-image" data-info="View Document" onclick="openModal('fileInput2')" onmouseover="showTooltip(this)" onmouseout="hideTooltip()">
+    
+        <!-- The Modal -->
+        <div id="myModal" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <a id="modalLink" alt="Document Link" style="display: none;">Download Document</a>
+            </div>
+        </div> 
+    </div>
+    <br/>
+    <br/>
+    <br/>
+    <br/><br/>
+    <br/>
+    <br/>
+    <br/>
+    <div class="purple">
+        Casino and other gaming Industries
+    </div>
+    <br/>
+    <div class="mini">
+        <label>Document Type</label>
+        <select name="Document Type" id="dtype"> 
+            <option value="ownership">Ownership</option> 
+            <option value="license-and-reg">License and registration</option> 
+            <option value="usage-of-acc">Usage of account</option> 
+            <option value="service-onsite-ATM">Who services onsite ATMs?</option> 
+            <option value="customer-base">Customer base</option> 
+            <option value="geog">Geography</option> 
+            <option value="prod-n-services">Products and services</option> 
+            <option value="fin-services-offered">Types of financial services offered</option>
+        </select>
+        <label class="file-input-label">
+            <label class="button-container hover-info" data-info="Upload a file">
+                <input type="file" class="input" id="fileInput3" name="fileInput3">
+                <img src="{% static 'docs/images/upload-icon.png' %}" alt="Image" class="image">
+                <span class="button">Upload</span>    
+            </label>
+        </label>
+        
+        <img src="{% static 'docs/images/lens.png' %}" height="40px" width="40px" class="hover-info-image" data-info="View Document" onclick="openModal('fileInput3')" onmouseover="showTooltip(this)" onmouseout="hideTooltip()">
+    
+        <!-- The Modal -->
+        <div id="myModal" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <a id="modalLink" alt="Document Link" style="display: none;">Download Document</a>
+            </div>
+        </div> 
+    </div>
+    <br/>
+    <br/>
+    <br/>
+    <br/><br/>
+    <br/>
+    <br/>
+    <br/>
+    <div class="purple">
+       CBD related business
+    </div>
+    <br/>
+    <div class="mini">
+        <label>Document Type</label>
+        <select name="Document Type" id="dtype"> 
+            <option value="product-type">Products type and products containing CBD</option>
+            <option value="analyst-certficate">Certificate of Analyst</option>
+            <option value="testing-sch">Testing Schedule</option>            
+        </select>
+        <label class="file-input-label">
+            <label class="button-container hover-info" data-info="Upload a file">
+                <input type="file" class="input" id="fileInput4" name="fileInput4">
+                <img src="{% static 'docs/images/upload-icon.png' %}" alt="Image" class="image">
+                <span class="button">Upload</span>    
+            </label>
+        </label>
+        
+        <img src="{% static 'docs/images/lens.png' %}" height="40px" width="40px" class="hover-info-image" data-info="View Document" onclick="openModal('fileInput4')" onmouseover="showTooltip(this)" onmouseout="hideTooltip()">
+    
+        <!-- The Modal -->
+        <div id="myModal" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <a id="modalLink" alt="Document Link" style="display: none;">Download Document</a>
+            </div>
+        </div> 
+    </div>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <div class="purple">
+       Escrow
+    </div>
+    <br/>
+    <div class="mini">
+        <label>Document Type</label>
+        <select name="Document Type" id="dtype"> 
+            <option value="purpose-of-escrow">Purpose of Escrow</option> 
+            <option value="escrow-inst">Escrow instructions</option> 
+            <option value="agent-or-company">Agent or Company - Agent Business</option>  
+        </select>
+        <label class="file-input-label">
+            <label class="button-container hover-info" data-info="Upload a file">
+                <input type="file" class="input" id="fileInput5" name="fileInput5">
+                <img src="{% static 'docs/images/upload-icon.png' %}" alt="Image" class="image">
+                <span class="button">Upload</span>    
+            </label>
+        </label>
+        
+        <img src="{% static 'docs/images/lens.png' %}" height="40px" width="40px" class="hover-info-image" data-info="View Document" onclick="openModal('fileInput5')" onmouseover="showTooltip(this)" onmouseout="hideTooltip()">
+    
+        <!-- The Modal -->
+        <div id="myModal" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <a id="modalLink" alt="Document Link" style="display: none;">Download Document</a>
+            </div>
+        </div> 
+    </div>
+    <br/>
+    <br/>
+    <div class="purple">
+        Additional Documents
+     </div>
+     <br>
+     <div class="mini">
+        <label>Addtional Documents</label>
+        <select name="add-doc" id="addtype"> 
+            <option value="">Any KYC Addendum Form(s) for each account requested, (if applicable)</option> 
+            <option value="">High Risk Onboarding Checklist Form</option>
+            <option value="">A Beneficial Ownership Certification Form, (if applicable)</option>
+            <option value="">Entity documentation such as business documentation as described in the High Risk KYC Profile Form</option>
+            <option value="">Email correspondence to clarify any questions and responses during the onboarding process</option>
+            <option value="">All documentation indicated within the High Risk KYC Profile Form (e.g., W-8BEN-E, Bank Statements, Ownership Chart)</option> 
+            <option value="">NPA Disclosure, if applicable</option>
+            <option value="">Any other documentation requested by the EDD Manager or AML Operations Director</option>
+            <option value="">CLEAR search results</option>
+            <option value="">Open Source Search</option>
+            <option value="">CLEAR search</option>
+            <option value="">OFAC search (LexisNexis) & match</option>
+            <option value="">PEP match</option>  
+        </select>
+        <label class="file-input-label">
+            <label class="button-container hover-info" data-info="Upload a file">
+                <input type="file" class="input" id="fileInput6" name="fileInput6">
+                <img src="{% static 'docs/images/upload-icon.png' %}" alt="Image" class="image">
+                <span class="button">Upload</span>    
+            </label>
+        </label>
+        
+        <img src="{% static 'docs/images/lens.png' %}" height="40px" width="40px" class="hover-info-image" data-info="View Document" onclick="openModal('fileInput6')" onmouseover="showTooltip(this)" onmouseout="hideTooltip()">
+    
+        <!-- The Modal -->
+        <div id="myModal" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <a id="modalLink" alt="Document Link" style="display: none;">Download Document</a>
+            </div>
+        </div> 
+    </div>
+     <br/>
+    <br/>
+    <div class="purple">
+        Search Results
+     </div>
+    <br/>
+    <div class="spdd-grid">
+        <div class="s result1">
+            <label>CLEAR</label>
+            <input type="text" name="clear"/>
+            <label>OPEN SOURCE</label>
+            <input type="text" name="opensource"/>
+        </div>
+        <div class="s result2">
+            <label>OFAC</label>
+            <input type="text" name="ofac"/>
+            <label>PEP</label>
+            <input type="text" name="pep"/>
+        </div>
+    </div>
+    <script src="javascript.js"></script>
+    <br/><br/><br/><br/>
+    </body>
+    </html>

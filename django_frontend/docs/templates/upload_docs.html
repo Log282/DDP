@@ -1,0 +1,27 @@
+{% load static %}
+<!-- upload_docs.html -->
+<h1>Upload Documents</h1>
+<form method="post" enctype="multipart/form-data" action="{% url 'upload_docs' %}">
+    {% csrf_token %}
+    <label for="document_type">Document Type</label>
+    <select name="document_type" id="document_type">
+        <option value="" disabled selected>Choose document type</option>
+        {% for choice in form.fields.document_type.choices %}
+            <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+        {% endfor %}
+    </select>
+    <label class="file-input-label">
+        <label class="button-container hover-info" data-info="Upload a file">
+            <input type="file" class="input" id="fileInput1" name="document" onchange="updateFileName(this)">
+            <img src="{% static 'docs/images/upload-icon.png' %}" alt="Image" class="image">
+            <span class="button">Upload</span>
+        </label>
+    </label>
+    <span id="fileName" class="file-name"></span>
+    <button type="submit">Submit</button>
+</form>
+
+{% if doc %}
+    <h2>Uploaded Document</h2>
+    <p><a href="/media/{{ doc.document }}">{{ doc.document }}</a></p>
+    {% endif %}

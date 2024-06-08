@@ -1,0 +1,194 @@
+{% load static %}
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8"/>
+    <title>GAIA-Application-Homepage</title>
+    <link href="{% static 'docs/css/styles.css' %}" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+    <header>
+    <div class="heading-container">
+        <a href="{% url 'home' %}"><img src="{% static 'docs/images/logo gaia.png' %}" class="main" height="60px" width="60px"></a>
+        <h2>Due Diligence Platform</h2>
+        <a href="{% url 'login' %}" class="logout-button">Logout</a>
+    </div>
+    </header>  
+    <br/>      
+    <nav>
+      <div class="flex-container">
+          <div class="dropdown" id="kycDropdown">
+              <a href="#" class="highlight" onclick="toggleDropdown()">KYC</a>
+              <div class="dropdown-content">
+                  <a href="{% url 'home' %}">US Consumer</a>
+                  <a href="{% url 'non_us_consumer' %}">Non US Consumer</a>
+                  <a href="{% url 'us_entity' %}">US Entity</a>
+                  <a href="{% url 'non_us_entity' %}">Non US Entity</a>
+              </div>
+          </div>
+          <a href="{% url 'spdd' %}" class="button">spDD</a>
+          <a href="{% url 'edd' %}" class="button" id="EDDmain">EDD</a>
+          <a class="button" id="ofacmain">OFAC</a>
+      </div>
+  </nav>
+    <br>
+    <hr/>
+    <div class="p1">
+        <div class="hover-info" data-info="KYC | ACCOUNT TYPE">
+        <select name="Choose customer type" class="pa1" id="customerType" placeholder="Choose customer type" onchange="redirectOnChange()">
+            <option value="Choose customer type">Choose customer type</option>  
+            <option value="New-Application">New Application</option> 
+            <option value="Existing-customer">Existing customer</option> 
+            <option value="Pending-customer">Pending customer</option> 
+        </select> 
+    </div>  
+        <select id="searchType">
+            <option value="account">Search by Account Number</option>
+            <option value="party">Search by Party ID</option>
+        </select>              
+        <input id="searchInput" class="pb1" type="text" placeholder="Search">
+        <button id="gaiaLinkButton">Search</button>
+    </div>
+    <br/>
+    <div class="purple">
+        Source of wealth
+    </div>
+    <br/><br/>
+    <div class="mini">
+        <label>Document Type</label>
+        <select name="Document Type" id="dtype"> 
+            <option value="employment">Employment</option> 
+            <option value="business">Business</option> 
+            <option value="inheritance">Inheritance</option> 
+        </select>
+        <label>Document Type</label>
+      <select name="Document Type" id="dtype">  
+        <option value="beneficial-ownership">Enhanced beneficial ownership</option> 
+      </select>
+      <label class="file-input-label">
+        <label class="button-container hover-info" data-info="Upload a file">
+            <input type="file" class="input" id="fileInput1" name="fileInput1">
+            <img src="{% static 'docs/images/upload-icon.png' %}" alt="Image" class="image">
+            <span class="button">Upload</span>    
+        </label>
+    </label>
+
+    <img src="{% static 'docs/images/lens.png' %}" height="40px" width="40px" class="hover-info-image" data-info="View Document" onclick="openModal('fileInput1')" onmouseover="showTooltip(this)" onmouseout="hideTooltip()">
+
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <a id="modalLink" alt="Document Link" style="display: none;">Download Document</a>
+        </div>
+    </div>  
+    </div>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <div class="purple">
+        Financial statement
+    </div>
+    <br/><br/>
+    <div class="mini">
+        <label>Document Type</label>
+        <select name="Document Type" id="dtype"> 
+            <option value="audited">Audited Statements</option> 
+            <option value="tax">Tax returns</option> 
+            <option value="annual-rep">Annual report</option> 
+        </select>
+        <label class="file-input-label">
+        <label class="button-container hover-info" data-info="Upload a file">
+            <input type="file" class="input" id="fileInput2" name="fileInput2">
+            <img src="{% static 'docs/images/upload-icon.png' %}" alt="Image" class="image">
+            <span class="button">Upload</span>    
+        </label>
+    </label>
+
+    <img src="{% static 'docs/images/lens.png' %}" height="40px" width="40px" class="hover-info-image" data-info="View Document" onclick="openModal('fileInput2')" onmouseover="showTooltip(this)" onmouseout="hideTooltip()">
+
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <a id="modalLink" alt="Document Link" style="display: none;">Download Document</a>
+        </div>
+    </div>    
+    </div>
+    <br/>
+    <br/>
+    <br/>
+    <br/><br/>
+
+
+    <div class="purple">
+        Banking references
+    </div>
+    <br/><br/>
+    <div class="mini">
+        <label>Document Type</label>
+        <select name="Document Type" id="dtype"> 
+            <option value="bank-statement">Bank statement from other banks (3 months)</option> 
+          </select>
+      <label class="file-input-label">
+        <label class="button-container hover-info" data-info="Upload a file">
+            <input type="file" class="input" id="fileInput3" name="fileInput3">
+            <img src="{% static 'docs/images/upload-icon.png' %}" alt="Image" class="image">
+            <span class="button">Upload</span>    
+        </label>
+    </label>
+
+    <img src="{% static 'docs/images/lens.png' %}" height="40px" width="40px" class="hover-info-image" data-info="View Document" onclick="openModal('fileInput3')" onmouseover="showTooltip(this)" onmouseout="hideTooltip()">
+
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <a id="modalLink" alt="Document Link" style="display: none;">Download Document</a>
+        </div>
+    </div>  
+    </div>
+    <br/>
+    <br/>
+    <br/>
+
+
+    <div class="mini check">
+      <label for="myCheckbox">Site Visit should be recorded in the call report</label>
+      <input type="checkbox" id="myCheckbox" name="myCheckbox">
+    </div>
+    <br><br><br>
+
+
+    <div class="mini">
+    <label>Document Type</label>
+      <select name="Document Type" id="dtype">  
+        <option value="beneficial-ownership">Enhanced beneficial ownership</option> 
+      </select>
+      <label class="file-input-label">
+        <label class="button-container hover-info" data-info="Upload a file">
+            <input type="file" class="input" id="fileInput4" name="fileInput4">
+            <img src="{% static 'docs/images/upload-icon.png' %}" alt="Image" class="image">
+            <span class="button">Upload</span>    
+        </label>
+    </label>
+    
+    <img src="{% static 'docs/images/lens.png' %}" height="40px" width="40px" class="hover-info-image" data-info="View Document" onclick="openModal('fileInput4')" onmouseover="showTooltip(this)" onmouseout="hideTooltip()">
+
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <a id="modalLink" alt="Document Link" style="display: none;">Download Document</a>
+        </div>
+    </div> 
+    </div>
+    <script src="{% static 'docs/js/javascript.js' %}"></script>
+    <br><br>
+    <br><br>
+  </body>
+</html>

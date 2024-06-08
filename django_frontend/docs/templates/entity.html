@@ -1,0 +1,116 @@
+{% load static %}
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8"/>
+    <title>GAIA-Application-Homepage</title>
+    <link href="{% static 'docs/css/styles.css' %}" rel="stylesheet" type="text/css"/>
+    <script src="{% static 'docs/js/javascript.js' %}"></script>
+</head>
+<body>
+    <header>
+    <div class="heading-container">
+        <a href="{% url 'home' %}"><img src="{% static 'docs/images/logo gaia.png' %}" class="main" height="60px" width="60px"></a>
+        <h2>Due Diligence Platform</h2>
+        <a href="{% url 'login' %}" class="logout-button">Logout</a>
+    </div>
+    </header>  
+    <br/> 
+    <div class="flex2">
+        <a href="{% url 'new_application' %}"><input class="flex-item2" id="ind1" type="button" value="Individual Application"/></a>
+        <a href="{% url 'entity' %}"><input class="flex-item2" id="ent1" type="button" value="Entity Application"/></a>
+    </div>
+    <br/> 
+    <div class="purple">Entity Application Form</div>
+    <br><br>
+    <div class="entity-grid">
+        <div class="e col1-entity">
+        <label>Account Type</label>
+        <select name="acc-type" id="acc-type"> 
+            <option value="checking">Checking</option> 
+            <option value="loan">Loan</option> 
+            <option value="deposit">Deposit</option> 
+            <option value="Card">Card</option>
+            <option value="other">Other</option>
+        </select>
+        <label>Entity Full Name</label>
+        <input type="text" name="ename"/>
+        </div>
+        <div class="e col2-entity">
+            <label>If chosen other enter here</label>
+        <input type="text" name="docID"/>
+        <label>Business Category</label>
+        <input type="text" name="b-cat"/>
+        </div>    
+    </div>
+    <br><br>
+    <div class="upload">
+        <lable>ID Upload:</lable>
+        <img src="{% static 'docs/images/id-img.png' %}" height="70px" width="100px"> 
+        <form enctype="multipart/form-data">
+            <label for="fileInput">Select a File</label>
+            <input type="file" class="input" name="fileInput" id="fileInput">
+            <label id="cameraLabel" for="camera-input">Camera upload</label>
+            <input type="file" class="input" name="camera-input" accept="image/*" capture="camera" id="camera-input">
+        </form>
+    </div>
+    <br/>
+    <div class="purple">Personal Information</div>
+    <br/>
+    <div class="grid">
+        <div class="grid-item rowB1">
+            <label>First Name</label>
+            <input type="text" name="fname1"/>
+            <label>Gender</label>
+            <input type="text" name="gender1"/>
+            <label>Street Address</label>
+            <input type="text" name="sadd"/>
+            <label>Postal Code</label>
+            <input type="text" name="pscode"/>
+            <label>ID Number</label>
+            <input type="text" name="idno1"/>
+        </div>
+        <br/>
+        <div class="grid-item rowB2">
+            <label>Middle Name</label>
+            <input type="text" name="mname1"/>            
+            <label>Email</label>
+            <input type="email" name="email1"/>
+            <label>City</label>
+            <input type="text" name="city1"/>
+            <label>Country</label>
+            <input type="text" name="count1"/>
+            <label>ID Type</label>
+            <input type="text" name="idtype1"/>      
+        </div>
+        <br/>
+        <div class="grid-item rowB3">
+            <label>Last Name</label>
+            <input type="text" name="lname1"/>
+            <label>Birth Date</label>
+            <input type="date" name="date1"/>        
+            <label>Phone</label>
+            <input type="number" name="phn1"/> 
+            <label>State</label>
+            <input type="text" name="state"/>    
+        </div>
+        <br/> 
+    </div><br><br>
+    <div class="purple">Signatories</div>
+    <br/>
+    <div class="mini">
+        <label>Signatories Full Name</label>
+        <input type="text" name="docID"/>
+        <lable>Signature/Digital Signature</lable>
+        <label class="file-input-label">
+            <label class="button-container hover-info" data-info="Upload a file">
+                <input type="file" class="input" name="fileInput">
+                <img src="{% static 'docs/images/upload-icon.png' %}" alt="Image" class="image">
+                <span class="button">Upload</span>    
+            </label>
+        </label>
+    </div>
+    <br><br>            
+    <center><input type="submit" value="Submit" id="submit"></center>
+    <br/><br><br>   
+</body>
+</html>

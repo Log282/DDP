@@ -1,0 +1,210 @@
+{% load static %}
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8"/>
+    <title>GAIA-Application-Homepage</title>
+    <link href="{% static 'docs/css/styles.css' %}" rel="stylesheet" type="text/css"/>
+    <script src="{% static 'docs/js/javascript.js' %}"></script>
+</head>
+<body>
+    <header>
+    <div class="heading-container">
+      <a href="{% url 'home' %}"><img src="{% static 'docs/images/logo gaia.png' %}" class="main" height="60px" width="60px"></a>
+        <h2>Due Diligence Platform</h2>
+        <a href="{% url 'login' %}" class="logout-button">Logout</a>
+    </div>
+    </header>  
+    <br/>       
+    <nav>
+      <div class="flex-container">
+          <div class="dropdown" id="kycDropdown">
+              <a href="#" class="highlight" onclick="toggleDropdown()" id="kyc-button">US Entity</a>
+              <div class="dropdown-content">
+                <a href="{% url 'us_consumer' %}">US Consumer</a>
+                <a href="{% url 'non_us_consumer' %}">Non US Consumer</a>
+                <a href="{% url 'us_entity' %}">US Entity</a>
+                <a href="{% url 'non_us_entity' %}">Non US Entity</a>
+            </div>
+        </div>
+        <a href="{% url 'spdd' %}" class="button">spDD</a>
+        <a href="{% url 'edd' %}" class="button">EDD</a>
+          <a class="button" id="ofacmain">OFAC</a>
+      </div>
+  </nav>
+    </div>
+    <br/>
+    <hr/>
+    <div class="p1">
+      <div class="hover-info" data-info="KYC | ACCOUNT TYPE">
+      <select name="Choose customer type" class="pa1" id="customerType" placeholder="Choose customer type" onchange="redirectOnChange()">
+          <option value="Choose customer type">Choose customer type</option>  
+          <option value="New-Application">New Application</option> 
+          <option value="Existing-customer">Existing customer</option> 
+          <option value="Pending-customer">Pending customer</option> 
+      </select> 
+  </div>  
+      <select id="searchType">
+          <option value="account">Search by Account Number</option>
+          <option value="party">Search by Party ID</option>
+      </select>              
+      <input id="searchInput" class="pb1" type="text" placeholder="Search">
+      <button id="gaiaLinkButton">Search</button>
+  </div>
+  <br>
+  <form >
+    <div class="purple">Personal Information</div>
+    <div class="gridA1">
+        <div class="grid-itemA1 col1">
+          <lable>Application ID</lable>
+            <input type="text" name="app-id"/>
+          <lable>Middle Name</lable>
+            <input type="text" name="mname"/>
+          <lable>Gender</lable>
+            <input type="text" name="gender"/>
+          <lable>Street Address</lable>
+            <input type="text" name="add"/>
+          <lable>Postal Code</lable>
+            <input type="text" name="postal-code"/>
+          <lable>ID Number</lable>
+            <input type="text" name="idno"/>
+        </div>
+        <div class="grid-itemA1 col2">
+          <lable>Account Type</lable>
+            <input type="text" name="acc-type"/>
+          <lable>Last Name</lable>
+            <input type="text" name="lname"/>
+          <lable>Email</lable>
+            <input type="email" name="email"/>
+          <lable>City</lable>
+            <input type="text" name="city"/>
+          <lable>Country</lable>
+            <input type="text" name="country"/>
+          <lable>Entity Full Name</lable>
+            <input type="text" name="entity-name"/>
+        </div>           
+        <div class="grid-itemA1 col3">
+          <lable>First Name</lable>
+            <input type="text" name="fname"/>
+          <lable>Birth Date</lable>
+            <input type="date" name="date"/>
+          <lable>Phone</lable>
+            <input type="number" name="phn"/>
+          <lable>State</lable>
+            <input type="text" name="state"/>
+          <lable>ID Type</lable>
+            <input type="text" name="id-type"/>
+          <lable>Business Category</lable>
+            <input type="text" name="b-cat"/>
+        </div>        
+    </div>
+    <br/>
+    <div class="miniflex"><label>SIGNATORIES</label>
+    <img src="{% static 'docs/images/lens.png' %}" height="35px" width="35px" class="hover-info" data-info="View Document" onclick="openModal()">
+  </div><br><br><br/><br/>
+    <div class="sub-grid">
+      <div class="sub-grid-item colx">
+        <lable>KYC ID</lable>
+          <input type="text" name="kycID"/>
+        <lable>EDD Score</lable>
+          <input type="text" name="eddscore"/>
+        <lable>SDN Score</lable>
+          <input type="text" name="sdnscore"/>
+      </div>
+      <div class="sub-grid-item coly">
+        <lable>SPDD Score</lable>
+          <input type="text" name="spddscore"/>
+        <lable>OFAC Score</lable>
+          <input type="text" name="ofacscore"/>
+        <lable>Business Category</lable>
+          <input type="text" name="bcat"/>
+      </div>
+      <div class="sub-grid-item colz">
+        <lable>CDD Score</lable>
+          <input type="text" name="cddscore"/>
+        <lable>PEP Score</lable>
+          <input type="text" name="pepscore"/>
+        <lable>NAICS Code</lable>
+          <input type="text" name="naics"/>
+      </div>
+  </div>
+  <br>
+    <div class="miniflex"><lable>Parties associated with consumer</lable>
+    <img src="{% static 'docs/images/lens.png' %}" height="35px" width="35px" class="hover-info" data-info="View Document" onclick="openModal()">
+  </div><br><br><br/>
+  <div class="purple">KYC- Documentary Verification</div>
+  <br/>
+  <div class="rowB1">
+    <div class="sub1">Primary Documentation</div>
+      <br/>
+      <div class="mini">
+      <lable>Document Type</lable>
+      <select name="Document Type" id="dtype"> 
+          <option value="certified-articles">Certificate of Articles of Incorporation</option>
+          <option value="">Government issued business license</option>
+          <option value="">General Partnership Agreement of Joint Venture Agreement</option>
+          <option value="">Limited Partnership Agreement</option>
+          <option value="">Trust Instrument or Trust Certification</option>
+          <option value="">LLC Articles of Organization</option>
+          <option value="">Charter or Bylaws or Management</option>
+          <option value="">Agreement (Unincorporated Association)</option>
+          <option value="">Agreement (Unincorporated Association)</option> 
+        </select>
+        <label class="file-input-label">
+          <label class="button-container hover-info" data-info="Upload a file">
+              <input type="file" class="input" id="fileInput1" name="fileInput1">
+              <img src="{% static 'docs/images/upload-icon.png' %}" alt="Image" class="image">
+              <span class="button">Upload</span>    
+          </label>
+      </label>
+      <img src="{% static 'docs/images/lens.png' %}" height="40px" width="40px" class="hover-info-image" data-info="View Document" onclick="openModal('fileInput1')" onmouseover="showTooltip(this)" onmouseout="hideTooltip()">
+          
+          <!-- The Modal -->
+          <div id="myModal" class="modal">
+              <!-- Modal content -->
+              <div class="modal-content">
+                  <span class="close" onclick="closeModal()">&times;</span>
+                  <a id="modalLink" alt="Document Link" style="display: none;">Download Document</a>
+              </div>
+          </div>
+      </div>
+  </div>
+  <br/><br/>
+  <div class="purple">KYC- Non Documentary Verification</div>
+    <br/><br/>
+    <div class="mini">
+        <lable>Document Type</lable>
+          <select name="Document Type" id="dtype"> 
+            <option value="Credit report">Credit report</option> 
+            <option value="LexisNexis IDV">LexisNexis IDV</option>
+            <option value="Tax return">Tax return</option>
+            <option value="audit">Audited financial statement</option>
+          </select>
+          <label class="file-input-label">
+            <label class="button-container hover-info" data-info="Upload a file">
+                <input type="file" class="input" id="fileInput2" name="fileInput2">
+                <img src="{% static 'docs/images/upload-icon.png' %}" alt="Image" class="image">
+                <span class="button">Upload</span>    
+            </label>
+        </label>
+        <img src="{% static 'docs/images/lens.png' %}" height="40px" width="40px" class="hover-info-image" data-info="View Document" onclick="openModal('fileInput2')" onmouseover="showTooltip(this)" onmouseout="hideTooltip()">
+            
+            <!-- The Modal -->
+            <div id="myModal" class="modal">
+                <!-- Modal content -->
+                <div class="modal-content">
+                    <span class="close" onclick="closeModal()">&times;</span>
+                    <a id="modalLink" alt="Document Link" style="display: none;">Download Document</a>
+                </div>
+            </div>
+          </div>
+      </div>
+      <br/>
+      <br/>
+  </form>
+  <script src="{% static 'docs/js/javascript.js' %}"></script>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+</body>
+</html>

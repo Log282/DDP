@@ -1,0 +1,499 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <title>GAIA-Application-Homepage</title>
+    <link href="{% static 'docs/css/styles.css' %}" rel="stylesheet" type="text/css">
+</head>
+<body>
+    <header>
+        <div class="heading-container">
+            <a href="{% url 'home' %}"><img src="{% static 'docs/images/logo gaia.png' %}" class="main" height="60px" width="60px"></a>
+            <h2>Due Diligence Platform</h2>
+            <a href="{% url 'login' %}" class="logout-button">Logout</a>
+        </div>
+    </header>  
+    <br/>      
+    <nav>
+        <div class="flex-container">
+            <div class="" id="kycDropdown">            <!--drop down class removed-'dropdown'-->
+                <a href="#" class="highlight hover-info" data-info="KYC | 3.11 CUSTOMER TYPES" onclick="toggleDropdown()" id="kyc-button">KYC</a>
+                <div class="dropdown-content">
+                    <a href="{% url 'us_consumer' %}" class="hover-info" data-info="1.1 US Consumer">US Consumer</a>
+                    <a href="{% url 'non_us_consumer' %}" class="hover-info" data-info="1.2 Non US Consumer">Non US Consumer</a>
+                    <a href="{% url 'us_entity' %}" class="hover-info" data-info="1.3 US Entity">US Entity</a>
+                    <a href="{% url 'non_us_entity' %}" class="hover-info" data-info="1.4 Non US Consumer">Non US Entity</a>
+                </div>
+            </div>
+            <a href="" class="button hover-info" data-info="KYC | 3.7 Specialized Due Diligence (SpDD)">spDD</a>  <!--href="{% url 'spdd' %}"-->
+            <a href="" class="button hover-info" data-info="HIGH RISK ONBOARDING & REVIEW">EDD</a>  <!--href="{% url 'edd' %}"-->
+            <a class="button" id="ofacmain">OFAC</a>
+        </div>
+    </nav>
+    <hr/>
+    <div class="p1">
+        <div class="hover-info" data-info="KYC | ACCOUNT TYPE">
+        <select name="Choose customer type" class="pa1" id="customerType" placeholder="Choose customer type" onchange="redirectOnChange()">
+            <option value="Choose customer type">Choose customer type</option>  
+            <option value="{% url 'new_application' %}">New Application</option> 
+            <option value="#">Existing customer</option> 
+            <option value="#">Pending customer</option> 
+        </select> 
+    </div>  
+        <select id="searchType">
+            <option value="account">Search by Account Number</option>
+            <option value="party">Search by Party ID</option>
+        </select>              
+        <input id="searchInput" class="pb1" type="text" placeholder="Search">
+        <button id="gaiaLinkButton">Search</button>
+    </div>
+    <br/>
+    </div>
+    <form method="post" action="{% url 'home' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="purple">Personal Information </div>
+        <div class="gridA1">
+            <div class="grid-itemA1 col1">    
+                <label class="hover-info" data-info="Application ID">Application ID</label>
+                <input type="text" name="app-id" id="app-id"/>
+                <label class="hover-info" data-info="3.2.3 CIP Information">Middle Name</label>
+                <input type="text" name="mname" id="mname"/>
+                <label class="hover-info" data-info="3.2.3 CIP Information">Gender</label>
+                <input type="text" name="gender" id="gender"/>
+                <label class="hover-info" data-info="3.2.3 CIP Information">Street Address</label>
+                <input type="text" name="add" id="add"/>
+                <label class="hover-info" data-info="3.2.3 CIP Information">Postal Code</label>
+                <input type="text" name="postal-code" id="postal-code"/>
+                <label class="hover-info" data-info="3.2.3 CIP Information">ID Number</label>
+                <input type="text" name="idno" id="idno"/>
+            </div>
+            <div class="grid-itemA1 col2">
+                <label class="hover-info" data-info="3.2.3 CIP Information">Account Type</label>
+                <input type="text" name="acc-type" id="acc-type"/>
+                <label class="hover-info" data-info="3.2.3 CIP Information">Last Name</label>
+                <input type="text" name="lname" id="lname"/>
+                <label class="hover-info" data-info="3.2.3 CIP Information">Email</label>
+                <input type="email" name="email" id="email"/>
+                <label class="hover-info" data-info="3.2.3 CIP Information">City</label>
+                <input type="text" name="city" id="city"/>
+                <label class="hover-info" data-info="3.2.3 CIP Information">Country</label>
+                <input type="text" name="country" id="country"/>
+                <button type="button" id="importBtn" onclick="importData()" style="display: block; margin: 20px auto; width: 180px; padding: 15px; border: none; border-radius: 15px; background-color: #6db967; color: #fff; font-size: 16px; cursor: pointer;">Import</button>
+            </div>
+            <div class="grid-itemA1 col3">
+                <label class="hover-info" data-info="3.2.3 CIP Information">First Name</label>
+                <input type="text" name="fname" id="fname"/>
+                <label class="hover-info" data-info="3.2.3 CIP Information">Date of Birth</label>
+                <input type="text" name="date" id="date"/>
+                <label class="hover-info" data-info="3.2.3 CIP Information">Phone Number</label>
+                <input type="text" name="phn" id="phn"/>
+                <label class="hover-info" data-info="3.2.3 CIP Information">State</label>
+                <input type="text" name="state" id="state"/>
+                <label class="hover-info" data-info="3.2.3 CIP Information">ID Type</label>
+                <input type="text" name="id-type" id="id-type"/>
+                <br>
+                <a href="#" id="recentImageLink" target="_blank">
+                    <img src="{% static 'docs/images/lens.png' %}" height="40px" width="40px" class="hover-info-image" data-info="View Document" onmouseover="showTooltip(this)" onmouseout="hideTooltip()">
+                </a>
+            </div>
+        </div>
+        <!-- <button type="button" id="importBtn" onclick="importData()" style="display: block; margin: 20px auto; width: 180px; padding: 15px; border: none; border-radius: 15px; background-color: #6db967; color: #fff; font-size: 16px; cursor: pointer;">Import</button> -->
+
+        <br/>
+        <div class="purple hover-info" data-info="3.2.4 CIP Verification">KYC- Documentary Verification</div>
+        <br>
+        <div class="rowB1">
+            <div class="sub1 hover-info" data-info="3.2.4.1 CIP Verification">Primary Documentation</div>
+            <br/>
+            <div class="mini">
+                <label>Document Type</label>
+                <select name="primary_document_type" id="dtype">
+                    <option value="Driver's Licence">Driver's Licence</option>
+                    <option value="Passport">Passport</option>
+                    <option value="Government Photo ID">Government Photo ID</option>
+                    <option value="U.S Armed Forces ID">U.S Armed Forces ID</option>
+                    <option value="U.S Alien Registration Card">U.S Alien Registration Card</option>
+                    <option value="Permanent Resident Card">Permanent Resident Card</option>
+                </select>
+                <label class="file-input-label">
+                    <label class="button-container hover-info" data-info="Upload a file">
+                        <input type="file" class="input" id="fileInput1" name="fileInput1">
+                        <img src="{% static 'docs/images/upload-icon.png' %}" alt="Image" class="image">
+                        <span class="button">Upload</span>    
+                    </label>
+                </label>
+                <a href="http://127.0.0.1:8000/retrieve_recent_image/primary" id="recentImageLink" target="_blank" onclick="retrieveRecentImage('primary')">
+                    <img src="{% static 'docs/images/lens.png' %}" height="40px" width="40px" class="hover-info-image" data-info="View Document" onmouseover="showTooltip(this)" onmouseout="hideTooltip()">
+                </a>
+                <div id="myModal1" class="modal">
+                    <div class="modal-content">
+                        <span class="close" onclick="closeModal()">&times;</span>
+                        <a id="modalLink1" alt="Document Link" style="display: none;">Download Document</a>
+                    </div>
+                </div>
+            </div>
+            <br/><br/>
+            <div class="sub1 hover-info" data-info="3.2.4.2 CIP Verification">Secondary Documentation</div>
+            <div class="mini">
+                <label>Document Type</label>
+                <select name="secondary_document_type" id="dtype">
+                    <option value="Passport">Passport</option>
+                    <option value="Driver's Licence">Driver's Licence</option>
+                    <option value="Government Photo ID">Government Photo ID</option>
+                    <option value="U.S Armed Forces ID">U.S Armed Forces ID</option>
+                    <option value="U.S Alien Registration Card">U.S Alien Registration Card</option>
+                    <option value="Permanent Resident Card">Permanent Resident Card</option>
+                </select>
+                <label class="file-input-label">
+                    <label class="button-container hover-info" data-info="Upload a file">
+                        <input type="file" class="input" id="fileInput2" name="fileInput2">
+                        <img src="{% static 'docs/images/upload-icon.png' %}" alt="Image" class="image">
+                        <span class="button">Upload</span>    
+                    </label>
+                </label>
+                <a href="http://127.0.0.1:8000/retrieve_recent_image/secondary" id="recentImageLink" target="_blank" onclick="retrieveRecentImage('primary')">
+                    <img src="{% static 'docs/images/lens.png' %}" height="40px" width="40px" class="hover-info-image" data-info="View Document" onmouseover="showTooltip(this)" onmouseout="hideTooltip()">
+                </a>
+                <div id="myModal2" class="modal">
+                    <div class="modal-content">
+                        <span class="close" onclick="closeModal()">&times;</span>
+                        <a id="modalLink2" alt="Document Link" style="display: none;">Download Document</a>
+                    </div>
+                </div>        
+            </div>
+            <br/><br/><br/>
+            <div class="purple hover-info" data-info="3.2.4.2 Non-Documentary Verification">KYC- Non Documentary Verification</div>
+            <br/>
+            <div class="mini">
+                <label>Document Type</label>
+                <select name="non_documentary_type" id="dtype">
+                    <option value="Credit report">Credit report</option>
+                    <option value="LexisNexis IDV">LexisNexis IDV</option>
+                    <option value="Tax return">Tax return</option>
+                    <option value="Pay stub">Pay stub</option>
+                    <option value="Utility bill">Utility bill</option>
+                    <option value="Mortgage statement">Mortgage statement</option>
+                    <option value="Account statement from previous bank">Account statement from previous bank</option>
+                </select>
+                <label class="file-input-label">
+                    <label class="button-container hover-info" data-info="Upload a file">
+                        <input type="file" class="input" id="fileInput3" name="fileInput3">
+                        <img src="{% static 'docs/images/upload-icon.png' %}" alt="Image" class="image">
+                        <span class="button">Upload</span>    
+                    </label>
+                </label>
+                <a href="http://127.0.0.1:8000/retrieve_recent_image/non_documentary" id="recentImageLink" target="_blank" onclick="retrieveRecentImage('primary')">
+                    <img src="{% static 'docs/images/lens.png' %}" height="40px" width="40px" class="hover-info-image" data-info="View Document" onmouseover="showTooltip(this)" onmouseout="hideTooltip()">
+                </a>
+                <div id="myModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close" onclick="closeModal()">&times;</span>
+                        <a id="modalLink" alt="Document Link" style="display: none;">Download Document</a>
+                    </div>
+                </div>         
+            </div>
+        </div>
+        <br/>
+        <button type="submit" style="display: block; margin: 0 auto; width: 180px; padding: 15px; border: none; border-radius: 15px; background-color: #6db967; color: rgb(255, 253, 253); font-size: 16px;"> <b> Submit </b></button>
+    </form>
+    <script src="{% static 'docs/js/javascript.js' %}"></script>
+    <script>
+     function importData() {
+            const appId = document.getElementById('app-id').value;
+            if (!appId) {
+                alert('Please enter an Application ID');
+                return;
+            }
+
+            fetch(`/get_data?appId=${appId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        alert(data.error);
+                    } else {
+                        document.getElementById('mname').value = data.MiddleName || 'None';
+                        document.getElementById('gender').value = data.Gender || 'None';
+                        document.getElementById('add').value = data.StreetAddress || 'None';
+                        document.getElementById('postal-code').value = data.PostalCode || 'None';
+                        document.getElementById('idno').value = data.IDNumber || 'None';
+                        document.getElementById('acc-type').value = 'None'; // Assuming Account Type is not available in JSON
+                        document.getElementById('lname').value = data.LastName || 'None';
+                        document.getElementById('email').value = data.Email || 'None';
+                        document.getElementById('city').value = data.City || 'None';
+                        document.getElementById('country').value = data.Country || 'None';
+                        document.getElementById('fname').value = data.FirstName || 'None';
+                        document.getElementById('date').value = data.BirthDate || 'None';
+                        document.getElementById('phn').value = data.Phone || 'None';
+                        document.getElementById('state').value = data.State || 'None';
+                        document.getElementById('id-type').value = data.IDType || 'None';
+
+                        const imageLink = document.getElementById('recentImageLink');
+                        imageLink.href = `/get_image?appId=${appId}`;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                    alert('An error occurred while fetching data');
+                });
+        }
+
+
+
+        function redirectOnChange() {
+    var selectElement = document.getElementById("customerType");
+    var selectedValue = selectElement.options[selectElement.selectedIndex].value;
+    if (selectedValue !== "Choose customer type") {
+        window.location.href = selectedValue;
+    }
+}
+
+    </script>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+</body>
+</html>
+
+
+<!-- {% load static %}
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8"/>
+    <title>GAIA-Application-Homepage</title>
+    <link href="{% static 'docs/css/styles.css' %}" rel="stylesheet" type="text/css">
+</head>
+<body>
+    <header>
+    <div class="heading-container">
+        <img src="{% static 'docs/images/logo gaia.png' %}" class="main" height="60px" width="60px">
+        <h2>Due Diligence Platform</h2>
+        <a href="{% url 'login' %}" class="logout-button">Logout</a>
+    </div>
+    </header>  
+    <br/>      
+    <nav>
+        <div class="flex-container">
+            <div class="dropdown" id="kycDropdown">
+                <a href="#" class="highlight hover-info" data-info="KYC | 3.11 CUSTOMER TYPES" onclick="toggleDropdown()" id="kyc-button">KYC</a>
+                <div class="dropdown-content">
+                    <a href="{% url 'us_consumer' %}" class="hover-info" data-info="1.1 US Consumer">US Consumer</a>
+                    <a href="{% url 'non_us_consumer' %}" class="hover-info" data-info="1.2 Non US Consumer">Non US Consumer</a>
+                    <a href="{% url 'us_entity' %}" class="hover-info" data-info="1.3 US Entity">US Entity</a>
+                    <a href="{% url 'non_us_entity' %}" class="hover-info" data-info="1.4 Non US Consumer">Non US Entity</a>
+                </div>
+            </div>
+            <a href="{% url 'spdd' %}" class="button hover-info" data-info="KYC | 3.7 Specialized Due Diligence (SpDD)">spDD</a>
+            <a href="{% url 'edd' %}" class="button hover-info" data-info="HIGH RISK ONBOARDING & REVIEW">EDD</a>
+            <a class="button" id="ofacmain">OFAC</a>
+        </div>
+    </nav>
+    <hr/>
+    <div class="p1">
+        <div class="hover-info" data-info="KYC | ACCOUNT TYPE">
+        <select name="Choose customer type" class="pa1" id="customerType" placeholder="Choose customer type" onchange="redirectOnChange()">
+            <option value="Choose customer type">Choose customer type</option>  
+            <option value="{% url 'new_application' %}">New Application</option> 
+            <option value="#">Existing customer</option> 
+            <option value="#">Pending customer</option> 
+        </select> 
+    </div>  
+        <select id="searchType">
+            <option value="account">Search by Account Number</option>
+            <option value="party">Search by Party ID</option>
+        </select>              
+        <input id="searchInput" class="pb1" type="text" placeholder="Search">
+        <button id="gaiaLinkButton">Search</button>
+    </div>
+    <br/>
+    </div>
+    <form id="importForm" method="post" action="{% url 'home' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="purple">Personal Information </div>
+        <div class="gridA1">
+            <div class="grid-itemA1 col1">    
+                <label class="hover-info" data-info="Application ID">Application ID</label>
+                    <input type="text" name="app-id" />           
+                <label class="hover-info" data-info="3.2.3 CIP Information">Middle Name</label>
+                    <input type="text" name="mname" />
+                <label class="hover-info" data-info="3.2.3 CIP Information">Gender</label>
+                    <input type="text" name="gender"/>
+                <label class="hover-info" data-info="3.2.3 CIP Information">Street Address</label>
+                    <input type="text" name="add"/>
+                <label class="hover-info" data-info="3.2.3 CIP Information">Postal Code</label>
+                    <input type="text" name="postal-code"/>
+                <label class="hover-info" data-info="3.2.3 CIP Information">ID Number</label>
+                    <input type="text" name="idno"/>
+            </div>
+            <div class="grid-itemA1 col2">
+                <label class="hover-info" data-info="3.2.3 CIP Information">Account Type</label>
+                    <input type="text" name="acc-type"/>
+                <label class="hover-info" data-info="3.2.3 CIP Information">Last Name</label>
+                    <input type="text" name="lname"/>
+                <label  class="hover-info" data-info="3.2.3 CIP Information">Email</label>
+                    <input type="email" name="email"/>
+                <label class="hover-info" data-info="3.2.3 CIP Information">City</label>
+                    <input type="text" name="city"/>
+                <label class="hover-info" data-info="3.2.3 CIP Information">Country</label>
+                    <input type="text" name="country"/>
+                    <br>  <button class="import-btn" id="importBtn" style="background-color: #3f51b5; color: white; padding: 6px 8px; font-size: 14px; border: none; border-radius: 4px; cursor: pointer;">Import</button>                
+            </div>           
+            <div class="grid-itemA1 col3">
+                <label class="hover-info" data-info="3.2.3 CIP Information">First Name</label>
+                    <input type="text" name="fname"/>
+                <label class="hover-info" data-info="3.2.3 CIP Information">Birth Date</label>
+                    <input type="text" name="date"/>
+                <label class="hover-info" data-info="3.2.3 CIP Information">Phone</label>
+                    <input type="number" name="phn"/>
+                <label class="hover-info" data-info="3.2.3 CIP Information">State</label>
+                    <input type="text" name="state"/>
+                <label class="hover-info" data-info="3.2.3 CIP Information">ID Type</label>
+                    <input type="text" name="id-type"/>
+                <br>
+                <a href="http://127.0.0.1:8000/retrieve_recent_image/non_documentary" id="recentImageLink" target="_blank" onclick="retrieveRecentImage('primary')">
+                    <img src="{% static 'docs/images/lens.png' %}" height="40px" width="40px" class="hover-info-image" data-info="View Document" onmouseover="showTooltip(this)" onmouseout="hideTooltip()">
+                </a>
+            </div>        
+        </div>
+        <br/>
+        <div class="purple hover-info" data-info="3.2.4 CIP Verification">KYC- Documentary Verification</div>
+        <br>
+        <div class="rowB1">
+            <div class="sub1 hover-info" data-info="3.2.4.1 CIP Verification">Primary Documentation</div>
+            <br/>
+            <div class="mini">
+                <label>Document Type</label>
+                <select name="primary_document_type" id="dtype"> 
+                    <option value="Driver's Licence">Driver's Licence</option> 
+                    <option value="Passport">Passport</option> 
+                    <option value="Government Photo ID">Government Photo ID</option> 
+                    <option value="U.S Armed Forces ID">U.S Armed Forces ID</option> 
+                    <option value="U.S Alien Registration Card">U.S Alien Registration Card</option>
+                    <option value="Permanent Resident Card">Permanent Resident Card</option>
+                </select>
+                <label class="file-input-label">
+                    <label class="button-container hover-info" data-info="Upload a file">
+                        <input type="file" class="input" id="fileInput1" name="fileInput1">
+                        <img src="{% static 'docs/images/upload-icon.png' %}" alt="Image" class="image">
+                        <span class="button">Upload</span>    
+                    </label>
+                </label>
+            -->
+                <!-- Make the lens icon clickable -->
+                <!-- <a href="http://127.0.0.1:8000/retrieve_recent_image/primary" id="recentImageLink" target="_blank" onclick="retrieveRecentImage('primary')">
+                    <img src="{% static 'docs/images/lens.png' %}" height="40px" width="40px" class="hover-info-image" data-info="View Document" onmouseover="showTooltip(this)" onmouseout="hideTooltip()">
+                </a> -->
+            
+                <!-- The Modal -->
+                <!-- <div id="myModal1" class="modal"> -->
+                    <!-- Modal content -->
+                    <!-- <div class="modal-content">
+                        <span class="close" onclick="closeModal()">&times;</span>
+                        <a id="modalLink1" alt="Document Link" style="display: none;">Download Document</a>
+                    </div>
+                </div>
+            </div>
+            
+                        
+            <br/>
+            <br/>
+            <div class="sub1 hover-info" data-info="3.2.4.2 CIP Verification">Secondary Documentation</div>
+            <div class="mini">
+                <label>Document Type</label>
+                <select name="secondary_document_type" id="dtype">
+                    <option value="Passport">Passport</option> 
+                    <option value="Driver's Licence">Driver's Licence</option>  
+                    <option value="Government Photo ID">Government Photo ID</option> 
+                    <option value="U.S Armed Forces ID">U.S Armed Forces ID</option> 
+                    <option value="U.S Alien Registration Card">U.S Alien Registration Card</option>
+                    <option value="Permanent Resident Card">Permanent Resident Card</option>
+                </select>
+                <label class="file-input-label">
+                    <label class="button-container hover-info" data-info="Upload a file">
+                        <input type="file" class="input" id="fileInput2" name="fileInput2">
+                        <img src="{% static 'docs/images/upload-icon.png' %}" alt="Image" class="image">
+                        <span class="button">Upload</span>    
+                    </label>
+                </label>
+                
+                <a href="http://127.0.0.1:8000/retrieve_recent_image/secondary" id="recentImageLink" target="_blank" onclick="retrieveRecentImage('primary')">
+                    <img src="{% static 'docs/images/lens.png' %}" height="40px" width="40px" class="hover-info-image" data-info="View Document" onmouseover="showTooltip(this)" onmouseout="hideTooltip()">
+                </a>             -->
+                <!-- The Modal -->
+                <!-- <div id="myModal2" class="modal"> -->
+                    <!-- Modal content -->
+                    <!-- <div class="modal-content">
+                        <span class="close" onclick="closeModal()">&times;</span>
+                        <a id="modalLink2" alt="Document Link" style="display: none;">Download Document</a>
+                    </div>
+                </div>        
+            </div>
+            <br/><br><br>
+            <div class="purple hover-info" data-info="3.2.4.2 Non-Documentary Verification">KYC- Non Documentary Verification</div><br>
+            <div class="mini">
+                <label>Document Type</label>
+                <select name="non_documentary_type" id="dtype"> 
+                    <option value="Credit report">Credit report</option> 
+                    <option value="LexisNexis IDV">LexisNexis IDV</option>
+                    <option value="Tax return">Tax return</option>
+                    <option value="Pay stub">Pay stub</option>
+                    <option value="Utility bill">Utility bill</option>
+                    <option value="Mortgage statement">Mortgage statement</option>
+                    <option value="Account statement from previous bank">Account statement from previous bank</option>
+                </select>
+                <label class="file-input-label">
+                    <label class="button-container hover-info" data-info="Upload a file">
+                        <input type="file" class="input" id="fileInput3" name="fileInput3">
+                        <img src="{% static 'docs/images/upload-icon.png' %}" alt="Image" class="image">
+                        <span class="button">Upload</span>    
+                    </label>
+                </label>
+                
+                <a href="http://127.0.0.1:8000/retrieve_recent_image/non_documentary" id="recentImageLink" target="_blank" onclick="retrieveRecentImage('primary')">
+                    <img src="{% static 'docs/images/lens.png' %}" height="40px" width="40px" class="hover-info-image" data-info="View Document" onmouseover="showTooltip(this)" onmouseout="hideTooltip()">
+                </a> -->
+                <!-- The Modal -->
+                <!-- <div id="myModal" class="modal"> -->
+                    <!-- Modal content -->
+                    <!-- <div class="modal-content">
+                        <span class="close" onclick="closeModal()">&times;</span>
+                        <a id="modalLink" alt="Document Link" style="display: none;">Download Document</a>
+                    </div>
+                </div>         
+            </div>
+        <br>
+        <button type="submit" style="cursor: pointer; display: block; margin: 0 auto; width: 180px; padding: 15px; border: none; border-radius: 15px; background-color: #6db967; color: rgb(255, 253, 253); font-size: 16px;"> <b> Submit </b></button>
+    </form>
+    <script src="{% static 'docs/js/javascript.js' %}"></script>
+    <script>
+        function redirectOnChange() {
+            var customerType = document.getElementById("customerType");
+            var selectedValue = customerType.options[customerType.selectedIndex].value;
+            if (selectedValue !== "#") {
+                window.location.href = selectedValue;
+            }
+        }
+        document.getElementById("importBtn").addEventListener("click", function() {
+            var uniqueId = document.getElementById("app-id").value;
+            fetch('/fetch-application-data/?unique_id=' + uniqueId)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        var fields = ['mname', 'gender', 'add', 'postal_code', 'idno', 'acc_type', 'lname', 'email', 'city', 'country', 'fname', 'date', 'phn', 'state', 'id_type'];
+                        fields.forEach(field => {
+                            document.getElementById(field).value = data.data[field];
+                        });
+                    } else {
+                        alert(data.message);
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        });
+    </script>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+</body>
+</html> --> 
