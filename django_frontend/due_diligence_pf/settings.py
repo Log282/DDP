@@ -32,7 +32,7 @@ DEBUG = True
 # ALLOWED_HOSTS = ['40.143.160.225','demo.systematrix.ai']
 
 
-ALLOWED_HOSTS = ['demo.systematrix.ai','40.143.160.225','127.0.0.1','*']
+ALLOWED_HOSTS = ['demo.systematrix.ai','40.143.160.225','127.0.0.1','*',".vercel.app", ".now.sh"]
 
 
 # Application definition
@@ -133,8 +133,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 # Railway specific settings
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'ui/static')]
+STATIC_ROOT = os.path.join(BASE_DIR, 'ui/staticfiles')
 
 STATIC_URL = '/static/'
 
