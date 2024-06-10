@@ -133,8 +133,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 # Railway specific settings
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'ui/static')]
-STATIC_ROOT = os.path.join(BASE_DIR, 'ui/staticfiles')
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'docs/static')]
+STATIC_ROOT = os.path.join(BASE_DIR, 'docs/staticfiles')
 
 STATIC_URL = '/static/'
 
